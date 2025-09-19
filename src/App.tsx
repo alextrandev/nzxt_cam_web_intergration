@@ -126,23 +126,10 @@ function App() {
   const preferencesStore = usePreferencesStore()
   const krakenStore = useKrakenStore()
 
-  // Polyfill for crypto.randomUUID() for better browser compatibility
-  const generateUUID = () => {
-    if (crypto?.randomUUID) {
-      return crypto.randomUUID()
-    }
-    // Fallback UUID generation
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-      const r = Math.random() * 16 | 0
-      const v = c === 'x' ? r : (r & 0x3 | 0x8)
-      return v.toString(16)
-    })
-  }
-
   React.useEffect(() => {
     if (inKraken === false) {
       if (!window.location.search)
-        window.location.replace(`?no-cache=${generateUUID()}`)
+        window.location.replace(`?no-cache=${crypto.randomUUID()}`)
     }
 
     preferencesStore.changeTheme(preferencesStore.lastUsedTheme)
