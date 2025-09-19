@@ -35,6 +35,9 @@ jobs:
         
       - name: Build
         run: npm run build
+        env:
+          VITE_GIPHY_API: ${{ secrets.VITE_GIPHY_API }}
+          VITE_TENOR_API: ${{ secrets.VITE_TENOR_API }}
         
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
