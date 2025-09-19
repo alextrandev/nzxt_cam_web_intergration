@@ -17,6 +17,11 @@ export const DualMonitor = () => {
 
   const { cpu, gpu } = useMonitoring()
 
+  // Helper function to determine if URL is a YouTube embed
+  const isYouTubeEmbed = (url: string): boolean => {
+    return url?.includes('youtube.com/embed/') || false
+  }
+
   const Cpu = () => (
     <div className="info-container">
       <div className="info-title">
@@ -123,13 +128,31 @@ export const DualMonitor = () => {
         width={`${(krakenStore.gif.size ?? 1) * 500}%`}
         style={{
           mixBlendMode: krakenStore.gif.blend,
-          filter: `blur(${(krakenStore.gif.blur ?? 1) * 10}px) opacity(${
-            krakenStore.gif.alpha
-          }) brightness(${(krakenStore.gif.brightness ?? 1) * 2}) contrast(${
-            (krakenStore.gif.contrast ?? 1) * 2
-          })`,
+          filter: `blur(${(krakenStore.gif.blur ?? 1) * 10}px) opacity(${krakenStore.gif.alpha
+            }) brightness(${(krakenStore.gif.brightness ?? 1) * 2}) contrast(${(krakenStore.gif.contrast ?? 1) * 2
+            })`,
+          display: isYouTubeEmbed(krakenStore.gif.url || '') ? 'none' : 'block',
         }}
       />
+
+      {isYouTubeEmbed(krakenStore.gif.url || '') && (
+        <iframe
+          src={krakenStore.gif.url}
+          width={`${(krakenStore.gif.size ?? 1) * 500}%`}
+          height="100%"
+          style={{
+            border: 'none',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            mixBlendMode: krakenStore.gif.blend,
+            filter: `blur(${(krakenStore.gif.blur ?? 1) * 10}px) opacity(${krakenStore.gif.alpha
+              }) brightness(${(krakenStore.gif.brightness ?? 1) * 2}) contrast(${(krakenStore.gif.contrast ?? 1) * 2
+              })`,
+          }}
+          allow="autoplay; encrypted-media"
+        />
+      )}
 
       <Progress
         leftValue={cpu?.temperature}

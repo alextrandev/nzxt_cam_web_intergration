@@ -10,7 +10,7 @@ import { GiphyFetch } from '@giphy/js-fetch-api'
 
 import GifPicker, { Theme } from 'gif-picker-react'
 
-import { AiOutlineSearch as SearchIcon, AiFillDelete as RemoveIcon } from 'react-icons/ai'
+import { AiOutlineSearch as SearchIcon, AiFillDelete as RemoveIcon, AiFillYoutube as YouTubeIcon } from 'react-icons/ai'
 
 import { Range } from 'components/Preferences/components/Range'
 import { Dialog } from 'components/Preferences/components/Dialog'
@@ -37,6 +37,29 @@ export const GifModule = () => {
 
   const [searchTerm, setSearchTerm] = React.useState('')
   const debouncedTerm = useDebounce(searchTerm, 1000)
+
+  const [youtubeUrl, setYoutubeUrl] = React.useState('')
+
+  // YouTube URL processing function
+  const extractYouTubeVideoId = (url: string): string | null => {
+    const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/
+    const match = url.match(regex)
+    return match ? match[1] : null
+  }
+
+  const handleYouTubeSubmit = () => {
+    const videoId = extractYouTubeVideoId(youtubeUrl)
+    if (videoId) {
+      // Create YouTube embed URL with parameters to minimize ads and controls
+      const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1`
+      preferencesStore.updateGif({ url: embedUrl })
+    }
+  }
+
+  // Helper function to determine if URL is a YouTube embed
+  const isYouTubeEmbed = (url: string): boolean => {
+    return url.includes('youtube.com/embed/')
+  }
 
   const fetchGifs = (offset: number) =>
     gf.search(debouncedTerm as string, { offset, limit: 10, type: 'gifs' })
@@ -100,7 +123,18 @@ export const GifModule = () => {
           poster={preferencesStore.current.gif.url}
           controls={false}
           width={120}
+          style={{ display: isYouTubeEmbed(preferencesStore.current.gif.url || '') ? 'none' : 'block' }}
         />
+
+        {isYouTubeEmbed(preferencesStore.current.gif.url || '') && (
+          <iframe
+            src={preferencesStore.current.gif.url}
+            width={120}
+            height={67}
+            style={{ border: 'none', borderRadius: '4px' }}
+            allow="autoplay; encrypted-media"
+          />
+        )}
 
         <BlendSelect />
 
@@ -170,10 +204,39 @@ export const GifModule = () => {
           >
             Tenor
           </div>
+
+          <div
+            className={`gif-tabSelector ${gifEngine === 'youtube' ? '--is-active' : ''}`}
+            onClick={() => setGifEngine('youtube')}
+          >
+            <YouTubeIcon style={{ marginRight: '5px' }} />
+            YouTube
+          </div>
         </div>
 
         <div className="gif-tabContent">
-          {gifEngine === 'tenor' ? (
+          {gifEngine === 'youtube' ? (
+            <div className="youtube-tab">
+              <div className="youtube-input">
+                <input
+                  type="text"
+                  value={youtubeUrl}
+                  onChange={(e) => setYoutubeUrl(e.target.value)}
+                  placeholder="Paste YouTube URL here..."
+                  style={{ width: '70%', marginRight: '10px' }}
+                />
+                <button onClick={handleYouTubeSubmit} style={{ padding: '8px 16px' }}>
+                  <YouTubeIcon style={{ marginRight: '5px' }} />
+                  Add Video
+                </button>
+              </div>
+              <div className="youtube-info" style={{ marginTop: '15px', fontSize: '12px', color: '#888' }}>
+                <p>• Paste any YouTube URL (regular or youtu.be)</p>
+                <p>• Video will auto-loop and play without ads</p>
+                <p>• Works with any public YouTube video</p>
+              </div>
+            </div>
+          ) : gifEngine === 'tenor' ? (
             <GifPicker
               tenorApiKey={tenorApiKey}
               theme={Theme.DARK}
