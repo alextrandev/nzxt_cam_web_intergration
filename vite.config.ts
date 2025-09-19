@@ -7,4 +7,12 @@ import { viteSingleFile } from 'vite-plugin-singlefile'
 export default defineConfig({
   plugins: [react(), tsconfigPaths(), viteSingleFile()],
   base: '/nzxt_cam_web_intergration/',
+  server: {
+    host: true, // Listen on all addresses
+    port: 3000,
+  },
+  preview: {
+    host: true, // Listen on all addresses  
+    port: 4173,
+  },
 })
