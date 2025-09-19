@@ -14,7 +14,8 @@ git checkout -b main
 git add -A
 git commit -m 'deploy'
 
-git push -f git@github.com:brunoandradebr/nzxt.git main:page
+# Replace with your GitHub repository URL
+git push -f git@github.com:alextrandev/nzxt_cam_web_intergration.git main:gh-pages
 
 cd -
 

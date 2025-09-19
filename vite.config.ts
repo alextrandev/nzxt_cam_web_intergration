@@ -6,5 +6,5 @@ import { viteSingleFile } from 'vite-plugin-singlefile'
 
 export default defineConfig({
   plugins: [react(), tsconfigPaths(), viteSingleFile()],
-  base: '/',
+  base: '/nzxt_cam_web_intergration/',
 })
