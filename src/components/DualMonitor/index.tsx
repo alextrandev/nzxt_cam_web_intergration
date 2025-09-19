@@ -7,8 +7,6 @@ import { useKrakenStore } from 'store/kraken'
 
 import { FiCpu as CpuIcon } from 'react-icons/fi'
 import { BsGpuCard as GpuIcon } from 'react-icons/bs'
-import { FaTemperatureLow as TempIcon } from 'react-icons/fa'
-import { VscPulse as LoadIcon } from 'react-icons/vsc'
 
 import { Progress } from 'components/Progress'
 
@@ -146,6 +144,7 @@ export const DualMonitor = () => {
           style={{
             color: krakenStore.text.color + decToHex(krakenStore.text.alpha * 100),
             fontSize: `${(krakenStore.text.size ?? 1) * 100}%`,
+            width: `${(krakenStore.separator.size ?? 0.6) * 200}%`,
           }}
         >
           <Cpu />

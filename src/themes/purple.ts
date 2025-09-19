@@ -12,7 +12,7 @@ export const theme: IPreferenceModule = {
   loadIcon: { color: '#00e5ff', alpha: 1 },
   text: { color: '#ffffff', alpha: 1, size: 0.63, font: 'Staatliches' },
   background: { color: '#000000', alpha: 1 },
-  separator: { color: '#313131', alpha: 1 },
+  separator: { color: '#313131', alpha: 1, size: 0.6 },
   cpuLabel: { color: '#ffffff', alpha: 1 },
   gpuLabel: { color: '#ffffff', alpha: 1 },
   gif: {

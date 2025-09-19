@@ -133,6 +133,17 @@ export const MiscModule = () => {
                 })
               }
             />
+            {name === 'separator' && (
+              <Range
+                label="width"
+                value={preferencesStore.current[name].size}
+                onChange={value =>
+                  preferencesStore.updateModule(name, {
+                    size: value,
+                  })
+                }
+              />
+            )}
           </div>
         )
       })}
