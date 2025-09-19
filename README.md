@@ -6,7 +6,7 @@ An integration to monitor CPU and GPU information (load and temperature) with we
 
 # Use in Kraken web integration
 
-URL: https://brunoandradebr.github.io/nzxt/
+URL: [alextrandev.github.io/nzxt_cam_web_intergration/](https://alextrandev.github.io/nzxt_cam_web_intergration/)
 
 # Preview
 
