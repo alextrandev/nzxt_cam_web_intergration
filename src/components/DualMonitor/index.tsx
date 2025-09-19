@@ -19,6 +19,23 @@ export const DualMonitor = () => {
   const isYouTubeEmbed = (url: string): boolean => {
     return url?.includes('youtube.com/embed/') || false
   }
+
+  // Helper function to convert YouTube URL to NZXT-style format (following their example)
+  const getNZXTStyleYouTubeUrl = (url: string): string => {
+    if (!url) return url
+
+    const videoId = extractVideoId(url)
+    if (!videoId) return url
+
+    // NZXT style: autoplay, playlist for looping, loop, no controls, muted
+    return `https://www.youtube.com/embed/${videoId}?autoplay=1&playlist=${videoId}&loop=1&controls=0&mute=1`
+  }
+
+  // Helper function to extract video ID from YouTube URL
+  const extractVideoId = (url: string): string => {
+    const match = url.match(/embed\/([a-zA-Z0-9_-]+)/)
+    return match ? match[1] : ''
+  }
   const Cpu = () => (
     <div className="info-container cpu-container">
       <div className="info-title">
@@ -113,7 +130,7 @@ export const DualMonitor = () => {
 
       {isYouTubeEmbed(krakenStore.gif.url || '') && (
         <iframe
-          src={krakenStore.gif.url}
+          src={getNZXTStyleYouTubeUrl(krakenStore.gif.url || '')}
           width={`${(krakenStore.gif.size ?? 1) * 500}%`}
           height="100%"
           style={{
