@@ -38,6 +38,27 @@ export const usePreferencesStore = create<IPreferencesStore>()(
         )
       },
 
+      updateVisibility: (module, visible) => {
+        set(
+          produce((state: IPreferencesStore) => {
+            // Initialize visibility object if it doesn't exist
+            if (!state.current.visibility) {
+              state.current.visibility = {
+                cpuIcon: true,
+                gpuIcon: true,
+                temperatureIcon: true,
+                loadIcon: true,
+                background: true,
+                separator: true,
+                cpuLabel: true,
+                gpuLabel: true,
+              }
+            }
+            state.current.visibility[module] = visible
+          }),
+        )
+      },
+
       removeGif: () => {
         set(
           produce((state: IPreferencesStore) => {
@@ -83,9 +104,23 @@ export const usePreferencesStore = create<IPreferencesStore>()(
 
     {
       name: 'nzxt-preferences',
-      version: 10,
+      version: 12,
       merge(persistedState, currentState) {
-        return { ...currentState, ...(persistedState as object) }
+        const state = { ...currentState, ...(persistedState as object) }
+        // Initialize visibility if missing
+        if (state.current && !state.current.visibility) {
+          state.current.visibility = {
+            cpuIcon: true,
+            gpuIcon: true,
+            temperatureIcon: true,
+            loadIcon: true,
+            background: true,
+            separator: true,
+            cpuLabel: true,
+            gpuLabel: true,
+          }
+        }
+        return state
       },
     },
   ),

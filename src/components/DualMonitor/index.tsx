@@ -21,91 +21,68 @@ export const DualMonitor = () => {
   const isYouTubeEmbed = (url: string): boolean => {
     return url?.includes('youtube.com/embed/') || false
   }
-
   const Cpu = () => (
-    <div className="info-container">
+    <div className="info-container cpu-container">
       <div className="info-title">
-        <CpuIcon color={krakenStore.cpuIcon.color} opacity={krakenStore.cpuIcon.alpha} />
-        <span
-          style={{
-            fontSize: `${1 * 5}vw`,
-            color: krakenStore.cpuLabel.color,
-            opacity: krakenStore.cpuLabel.alpha,
-          }}
-        >
-          {cpu?.name?.replace(/(core|ryzen \d)/gi, '').trim() ?? 'i9 11900K'}
-        </span>
+        {krakenStore.visibility?.cpuIcon !== false && (
+          <CpuIcon color={krakenStore.cpuIcon.color} opacity={krakenStore.cpuIcon.alpha} />
+        )}
+        {krakenStore.visibility?.cpuLabel !== false && (
+          <span
+            style={{
+              color: krakenStore.cpuLabel.color,
+              opacity: krakenStore.cpuLabel.alpha,
+              fontSize: `${(krakenStore.text.size ?? 1) * 125}%`,
+              marginLeft: "-5px",
+              marginTop: "15px",
+            }}
+          >
+            {cpu?.name?.replace(/(core|ryzen \d)/gi, '').trim() ?? 'i9 11900K'}
+          </span>
+        )}
       </div>
-      <div
-        className="info-data"
-        style={{ fontSize: `${16 * (krakenStore.text.size ?? 1)}vw` }}
-      >
-        <div className="info-icon temperature">
-          <TempIcon
-            color={krakenStore.temperatureIcon.color}
-            opacity={krakenStore.temperatureIcon.alpha}
-          />
+      <div className="info-data">
+        <div className="data" style={{ fontSize: `${(krakenStore.text.size ?? 1) * 10}vw`, marginLeft: "-25px" }}>
+          {cpu?.temperature ?? 42}°
         </div>
-        <div className="data">{cpu?.temperature ?? 42}°</div>
       </div>
-      <div
-        className="info-data"
-        style={{ fontSize: `${16 * (krakenStore.text.size ?? 1)}vw` }}
-      >
-        <div className="info-icon load">
-          <LoadIcon
-            color={krakenStore.loadIcon.color}
-            opacity={krakenStore.loadIcon.alpha}
-          />
-        </div>
-        <div className="data">
-          {cpu?.load ?? 3}
-          <span>%</span>
+      <div className="info-data">
+        <div className="data" style={{ fontSize: `${(krakenStore.text.size ?? 1) * 10}vw` }}>
+          {cpu?.load ?? 3}%
         </div>
       </div>
     </div>
   )
 
   const Gpu = () => (
-    <div className="info-container">
+    <div className="info-container gpu-container">
       <div className="info-title">
-        <GpuIcon color={krakenStore.gpuIcon.color} opacity={krakenStore.gpuIcon.alpha} />
-        <span
-          style={{
-            fontSize: `${1 * 5}vw`,
-            color: krakenStore.gpuLabel.color,
-            opacity: krakenStore.gpuLabel.alpha,
-          }}
-        >
-          {gpu?.name?.replace(/nvidia geforce/gi, '').replace(/amd radeon/gi, '') ??
-            'RTX 3080 Ti'}
-        </span>
+        {krakenStore.visibility?.gpuIcon !== false && (
+          <GpuIcon color={krakenStore.gpuIcon.color} opacity={krakenStore.gpuIcon.alpha} />
+        )}
+        {krakenStore.visibility?.gpuLabel !== false && (
+          <span
+            style={{
+              color: krakenStore.gpuLabel.color,
+              opacity: krakenStore.gpuLabel.alpha,
+              fontSize: `${(krakenStore.text.size ?? 1) * 125}%`,
+              marginRight: "-15px",
+              marginTop: "15px",
+            }}
+          >
+            {gpu?.name?.replace(/nvidia geforce/gi, '').replace(/amd radeon/gi, '').replace(/SUPER/gi, 'S').replace(/RTX/gi, '') ??
+              'RTX 3080 Ti'}
+          </span>
+        )}
       </div>
-      <div
-        className="info-data"
-        style={{ fontSize: `${16 * (krakenStore.text.size ?? 1)}vw` }}
-      >
-        <div className="info-icon temperature">
-          <TempIcon
-            color={krakenStore.temperatureIcon.color}
-            opacity={krakenStore.temperatureIcon.alpha}
-          />
+      <div className="info-data">
+        <div className="data" style={{ fontSize: `${(krakenStore.text.size ?? 1) * 10}vw`, marginRight: "-35px" }}>
+          {gpu?.temperature ?? 45}°
         </div>
-        <div className="data">{gpu?.temperature ?? 45}°</div>
       </div>
-      <div
-        className="info-data"
-        style={{ fontSize: `${16 * (krakenStore.text.size ?? 1)}vw` }}
-      >
-        <div className="info-icon load">
-          <LoadIcon
-            color={krakenStore.loadIcon.color}
-            opacity={krakenStore.loadIcon.alpha}
-          />
-        </div>
-        <div className="data">
-          {gpu?.load ?? 12}
-          <span>%</span>
+      <div className="info-data">
+        <div className="data" style={{ fontSize: `${(krakenStore.text.size ?? 1) * 10}vw` }}>
+          {gpu?.load ?? 12}%
         </div>
       </div>
     </div>
@@ -115,8 +92,9 @@ export const DualMonitor = () => {
     <Container
       style={{
         fontFamily: krakenStore.text.font,
-        backgroundColor:
-          krakenStore.background.color + decToHex(krakenStore.background.alpha * 100),
+        backgroundColor: krakenStore.visibility?.background !== false
+          ? krakenStore.background.color + decToHex(krakenStore.background.alpha * 100)
+          : 'transparent',
       }}
     >
       <video
@@ -167,16 +145,19 @@ export const DualMonitor = () => {
           className="monitoring"
           style={{
             color: krakenStore.text.color + decToHex(krakenStore.text.alpha * 100),
+            fontSize: `${(krakenStore.text.size ?? 1) * 100}%`,
           }}
         >
           <Cpu />
-          <div
-            className="info-separator"
-            style={{
-              borderColor: krakenStore.separator.color,
-              opacity: krakenStore.separator.alpha,
-            }}
-          ></div>
+          {krakenStore.visibility?.separator !== false && (
+            <div
+              className="info-separator"
+              style={{
+                borderColor: krakenStore.separator.color,
+                opacity: krakenStore.separator.alpha,
+              }}
+            ></div>
+          )}
           <Gpu />
         </div>
       </Progress>

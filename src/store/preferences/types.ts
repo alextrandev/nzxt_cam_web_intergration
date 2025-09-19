@@ -50,13 +50,26 @@ export interface IModules {
   gpuLabel: TModuleProperties
 }
 
+export interface IModuleVisibility {
+  cpuIcon: boolean
+  gpuIcon: boolean
+  temperatureIcon: boolean
+  loadIcon: boolean
+  background: boolean
+  separator: boolean
+  cpuLabel: boolean
+  gpuLabel: boolean
+}
+
 export interface IPreferenceModule extends IModules {
   gif: TGifModuleProperties
+  visibility: IModuleVisibility
 }
 
 interface IPreferenceActions {
   updateModule: (module: keyof IModules, properties: Partial<TModuleProperties>) => void
   updateGif: (properties: TGifModuleProperties) => void
+  updateVisibility: (module: keyof IModuleVisibility, visible: boolean) => void
   removeGif: () => void
   discardChanges: () => void
   changeTheme: (theme: string) => void

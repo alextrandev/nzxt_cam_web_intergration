@@ -24,4 +24,14 @@ export const theme: IPreferenceModule = {
     blur: 0,
     url: 'https://media4.giphy.com/media/3oEduUkR13701mndnO/giphy.mp4?cid=015e012due85f1yy8kwpl3qgrdwdt7sw71tq3jv3nf58ggwg&ep=v1_gifs_search&rid=giphy.mp4&ct=g',
   },
+  visibility: {
+    cpuIcon: true,
+    gpuIcon: true,
+    temperatureIcon: true,
+    loadIcon: true,
+    background: true,
+    separator: true,
+    cpuLabel: true,
+    gpuLabel: true,
+  },
 }

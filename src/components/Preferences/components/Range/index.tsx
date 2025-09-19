@@ -20,8 +20,8 @@ export const Range = ({ label, ...props }: IRangeProps) => {
   }
 
   React.useEffect(() => {
-    if (debouncedValue) {
-      if (props.onChange) props.onChange(debouncedValue as number)
+    if (props.onChange) {
+      props.onChange(debouncedValue as number)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedValue])
