@@ -4,14 +4,14 @@ import { usePreferencesStore } from 'store/preferences'
 
 import {
   AiFillGithub as GitIcon,
-  AiOutlineInstagram as InstagramIcon,
-  AiOutlineYoutube as YoutubeIcon,
+  AiOutlineInstagram as InstagramIcon
 } from 'react-icons/ai'
 
 import { Dialog } from 'components/Preferences/components/Dialog'
 import { IDialogActions } from 'components/Preferences/components/Dialog/types'
 
 import { Container } from './styles'
+import { FiLinkedin } from 'react-icons/fi'
 
 export const Header = () => {
   const preferencesStore = usePreferencesStore()
@@ -45,28 +45,28 @@ export const Header = () => {
 
         <div className="author">
           <span>
-            by <i>Bruno Andrade</i>
+            by <i>Alex Tran</i>
           </span>
 
           <div className="author-social">
-            <a title="github" target="_blank" href="https://github.com/brunoandradebr">
+            <a title="github" target="_blank" href="https://github.com/alextrandev">
               <GitIcon size={22} />
             </a>
 
             <a
               title="instagram"
               target="_blank"
-              href="https://www.instagram.com/brunoandradebr/"
+              href="https://www.instagram.com/dk10119/"
             >
               <InstagramIcon size={22} />
             </a>
 
             <a
-              title="youtube"
+              title="linkedIn"
               target="_blank"
-              href="https://www.youtube.com/channel/UCVnLOK7h2-zBRNtmZU8yxBQ"
+              href="https://www.linkedin.com/in/tduclong"
             >
-              <YoutubeIcon size={22} />
+              <FiLinkedin size={20} />
             </a>
           </div>
         </div>

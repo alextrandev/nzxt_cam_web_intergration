@@ -17,7 +17,6 @@
  * @param c second start range
  * @param d second end range
  *
- * @author Bruno Andrade
  *
  * @returns number
  */
